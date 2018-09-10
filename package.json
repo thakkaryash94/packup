@@ -1,0 +1,29 @@
+{
+  "name": "packup",
+  "version": "0.1.0",
+  "description": "npm package updater",
+  "author": "Yash Thakkar <thakkaryash94@gmail.com>",
+  "contributors": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/viyet/pickup.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/viyet/pickup/issues"
+  },
+  "homepage": "https://gitlab.com/viyet/pickup#README",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
+    "react-scripts": "1.1.5",
+    "semver": "^5.5.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
