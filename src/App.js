@@ -43,7 +43,6 @@ class App extends Component {
       const { dependencies } = InputPackage
       const depPromises = Object.keys(dependencies).map(dependency => axios.get(`https://registry.npmjs.com/${dependency}/`))
       const depResponses = await axios.all(depPromises)
-      console.log('depResults', depResponses)
       depResponses.forEach(depResponse => {
         const { data: { name, versions } } = depResponse
         TempPackage.dependencies[name] = this.getPackageVersion(versions, InputPackage.dependencies[name])
@@ -57,7 +56,6 @@ class App extends Component {
   }
 
   getPackageVersion(versions, version) {
-    console.log('dep', versions, version)
     let ver = version
     switch (version.charAt(0)) {
 
@@ -67,7 +65,10 @@ class App extends Component {
 
       case '^':
         ver = semver.maxSatisfying(Object.keys(versions), version)
-        console.log('ver', ver)
+        if(version.charAt(1) == 0) {
+          let newVersion = `>${version.substr(1)}`
+          ver = semver.maxSatisfying(Object.keys(versions), newVersion)
+        }
         return ver ? `^${ver}` : version
 
       case '~':
