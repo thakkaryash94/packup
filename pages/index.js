@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import './App.css'
 import semver from 'semver'
 
 class App extends Component {
@@ -41,7 +40,7 @@ class App extends Component {
       const InputPackage = JSON.parse(this.state.value)
       let TempPackage = InputPackage
       const { dependencies } = InputPackage
-      const depPromises = Object.keys(dependencies).map(dependency => axios.get(`https://registry.npmjs.com/${dependency}/`))
+      const depPromises = Object.keys(dependencies).map(dependency => axios.get(`/api/repo/${dependency}`))
       const depResponses = await axios.all(depPromises)
       depResponses.forEach(depResponse => {
         const { data: { name, versions } } = depResponse
@@ -65,7 +64,7 @@ class App extends Component {
 
       case '^':
         ver = semver.maxSatisfying(Object.keys(versions), version)
-        if(version.charAt(1) == 0) {
+        if (version.charAt(1) == 0) {
           let newVersion = `>${version.substr(1)}`
           ver = semver.maxSatisfying(Object.keys(versions), newVersion)
         }
@@ -93,7 +92,7 @@ class App extends Component {
             <input type="submit" value="Submit" />
           </form>
         </span>
-        {JSON.stringify(this.state.finalData)}
+        <pre>{JSON.stringify(this.state.finalData, null, 2)}</pre>
       </div>
     )
   }
