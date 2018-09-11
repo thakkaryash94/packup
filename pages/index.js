@@ -18,6 +18,9 @@ class App extends Component {
         "react-dom": ">14.5.0",
         "react-scripts": "1.1.5"
       },
+      "devDependencies": {
+        "eslint": "^4.4.0"
+      },
       "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
@@ -39,13 +42,23 @@ class App extends Component {
     try {
       const InputPackage = JSON.parse(this.state.value)
       let TempPackage = InputPackage
-      const { dependencies } = InputPackage
-      const depPromises = Object.keys(dependencies).map(dependency => axios.get(`/api/repo/${dependency}`))
-      const depResponses = await axios.all(depPromises)
-      depResponses.forEach(depResponse => {
-        const { data: { name, versions } } = depResponse
-        TempPackage.dependencies[name] = this.getPackageVersion(versions, InputPackage.dependencies[name])
-      })
+      const { dependencies, devDependencies } = InputPackage
+      if (dependencies) {
+        const depPromises = Object.keys(dependencies).map(dependency => axios.get(`/api/repo/${dependency}`))
+        const depResponses = await axios.all(depPromises)
+        depResponses.forEach(depResponse => {
+          const { data: { name, versions } } = depResponse
+          TempPackage.dependencies[name] = this.getPackageVersion(versions, InputPackage.dependencies[name])
+        })
+      }
+      if (devDependencies) {
+        const devDepPromises = Object.keys(devDependencies).map(dependency => axios.get(`/api/repo/${dependency}`))
+        const devDepResponses = await axios.all(devDepPromises)
+        devDepResponses.forEach(devDepResponse => {
+          const { data: { name, versions } } = devDepResponse
+          TempPackage.devDependencies[name] = this.getPackageVersion(versions, InputPackage.devDependencies[name])
+        })
+      }
       this.setState({
         finalData: TempPackage
       })
