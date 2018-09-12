@@ -18,8 +18,8 @@ app.prepare()
       return app.render(req, res, '/', req.query)
     })
 
-    server.get('/api/repo/:repoName', (req, res) => {
-      var uri = `https://registry.npmjs.org/${req.params.repoName}`
+    server.get('/api/repo', (req, res) => {
+      var uri = `https://registry.npmjs.org/${req.query.reponame}`
       var params = { timeout: 30000 }
       client.get(uri, params, function (error, data, raw, clientRes) {
         return res.send(data)

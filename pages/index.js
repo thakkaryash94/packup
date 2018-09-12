@@ -13,6 +13,7 @@ class App extends Component {
       "version": "0.1.0",
       "private": true,
       "dependencies": {
+        "@babel/core": "^7.0.0-beta53",
         "axios": "^0.16.0",
         "react": "~16.3.0",
         "react-dom": ">14.5.0",
@@ -44,7 +45,7 @@ class App extends Component {
       let TempPackage = InputPackage
       const { dependencies, devDependencies } = InputPackage
       if (dependencies) {
-        const depPromises = Object.keys(dependencies).map(dependency => axios.get(`/api/repo/${dependency}`))
+        const depPromises = Object.keys(dependencies).map(dependency => axios.get(`/api/repo?reponame=${dependency}`))
         const depResponses = await axios.all(depPromises)
         depResponses.forEach(depResponse => {
           const { data: { name, versions } } = depResponse
@@ -52,7 +53,7 @@ class App extends Component {
         })
       }
       if (devDependencies) {
-        const devDepPromises = Object.keys(devDependencies).map(dependency => axios.get(`/api/repo/${dependency}`))
+        const devDepPromises = Object.keys(devDependencies).map(dependency => axios.get(`/api/repo?reponame=${dependency}`))
         const devDepResponses = await axios.all(devDepPromises)
         devDepResponses.forEach(devDepResponse => {
           const { data: { name, versions } } = devDepResponse
