@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import semver from 'semver'
+import { Flex, Box } from 'rebass'
 
 class App extends Component {
 
@@ -95,8 +96,8 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <span>
+      <Flex>
+        <Box width={1 / 2} px={2}>
           <form onSubmit={this.handleSubmit}>
             <label>
               Your Package JSON
@@ -105,9 +106,11 @@ class App extends Component {
             </label>
             <input type="submit" value="Submit" />
           </form>
-        </span>
-        <pre>{JSON.stringify(this.state.finalData, null, 2)}</pre>
-      </div>
+        </Box>
+        <Box width={1 / 2} px={2}>
+          <pre>{JSON.stringify(this.state.finalData, null, 2)}</pre>
+        </Box>
+      </Flex>
     )
   }
 }

@@ -1,0 +1,18 @@
+image: node:latest
+
+stages:
+  - deploy
+
+release:
+  stage: deploy
+  script:
+    - npm i -g now --silent --unsafe-perm
+    - NOW_TEMP_URL=$(now --public -t ${NOW_TOKEN} -n ${NOW_APP_NAME})
+    - echo "packup app deploy to $NOW_TEMP_URL"
+    - echo "wait 10 sec before set alias..."
+    - sleep 10
+    - echo "create alias for ${NOW_TEMP_URL} to ${NOW_APP_NAME}.now.sh"
+    - now alias -t ${NOW_TOKEN} set ${NOW_TEMP_URL} ${NOW_APP_NAME}.now.sh
+    - now rm packup --safe --yes
+  only:
+    - master
