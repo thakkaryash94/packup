@@ -1,36 +1,40 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import semver from 'semver'
-import { Flex, Box } from 'rebass'
+import Layout from '../components/layout'
+import { Grid, Row, Col } from '@zendeskgarden/react-grid'
+import { Button } from '@zendeskgarden/react-buttons'
+import { Textarea } from '@zendeskgarden/react-textfields'
+import { XXL, XL } from '@zendeskgarden/react-typography'
+import copy from 'copy-to-clipboard'
 
 class App extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      value: `
-    {
-      "name": "package-updater",
-      "version": "0.1.0",
-      "private": true,
-      "dependencies": {
-        "@babel/core": "^7.0.0-beta53",
-        "axios": "^0.16.0",
-        "react": "~16.3.0",
-        "react-dom": ">14.5.0",
-        "react-scripts": "1.1.5"
-      },
-      "devDependencies": {
-        "eslint": "^4.4.0"
-      },
-      "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject"
-      }
-    }
-    `,
+      value:
+        `{
+  "name": "package-updater",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta53",
+    "axios": "^0.16.0",
+    "react": "~16.3.0",
+    "react-dom": ">14.5.0",
+    "react-scripts": "1.1.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.4.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}`,
       finalData: {}
     }
   }
@@ -40,6 +44,9 @@ class App extends Component {
   }
 
   handleSubmit = async (event) => {
+    this.setState({
+      finalData: {}
+    })
     event.preventDefault()
     try {
       const InputPackage = JSON.parse(this.state.value)
@@ -75,7 +82,7 @@ class App extends Component {
 
       case '>':
         ver = semver.maxSatisfying(Object.keys(versions), version)
-        return `>${ver}` || version
+        return ver ? `>${ver}` : version
 
       case '^':
         ver = semver.maxSatisfying(Object.keys(versions), version)
@@ -87,30 +94,47 @@ class App extends Component {
 
       case '~':
         ver = semver.maxSatisfying(Object.keys(versions), version)
-        return `~${ver}` || version
+        return ver ? `~${ver}` : version
 
       default:
         return version
     }
   }
 
+  handleCopyClipboard = () => {
+    copy(JSON.stringify(this.state.finalData, null, 2))
+  }
+
   render() {
+    const { finalData } = this.state
     return (
-      <Flex>
-        <Box width={1 / 2} px={2}>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Your Package JSON
-          <br />
-              <textarea type="text" style={{ height: '300px', width: '400px' }} value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-        </Box>
-        <Box width={1 / 2} px={2}>
-          <pre>{JSON.stringify(this.state.finalData, null, 2)}</pre>
-        </Box>
-      </Flex>
+      <Layout>
+        <>
+          <Grid>
+            <Row>
+              <Col xl={6} xl={6} >
+                <h2>
+                  Your Package JSON
+                </h2>
+                <Textarea resizable={false} style={{ height: '400px', width: '400px', fontSize: '14px' }} value={this.state.value} onChange={this.handleChange} />
+                <br />
+                <Button default onClick={this.handleSubmit}>Submit</Button>
+              </Col>
+              <Col xl={6} xl={6} >
+                {JSON.stringify(finalData, null, 2) !== '{}' ?
+                  <>
+                    <h2>Updated package.json</h2>
+                    <Textarea disabled={true} style={{ height: '400px', width: '400px', fontSize: '14px' }} value={JSON.stringify(finalData, null, 2)} />
+                    <br />
+                    <Button default onClick={this.handleCopyClipboard}>Copy to Clipboard</Button>
+                  </>
+                  : null}
+                <br />
+              </Col>
+            </Row>
+          </Grid>
+        </>
+      </Layout>
     )
   }
 }
