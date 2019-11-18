@@ -3,7 +3,7 @@ import axios from 'axios'
 import copy from 'copy-to-clipboard'
 import semver from 'semver'
 import Layout from '../components/layout'
-import { Text, Heading, Button, Box, Grid } from '@primer/components'
+import { Text, TextInput, Heading, Button, Box, Grid } from '@primer/components'
 
 class App extends Component {
 
@@ -113,17 +113,17 @@ class App extends Component {
       <Layout>
         <Grid gridTemplateColumns="repeat(2, auto)" gridGap={3}>
           <Box p={3}>
-            <Heading>Current package.json</Heading>
-            <textarea style={{ height: '400px', width: '400px', fontSize: '14px' }} value={this.state.value} onChange={this.handleChange} />
-            <br />
+            <Heading fontSize={30}>Current package.json</Heading>
+            <TextInput as="textarea" rows={25} style={{ width: '400px', fontSize: '14px' }} value={this.state.value} onChange={this.handleChange} />
+            <br /><br />
             <Button default onClick={this.handleSubmit}>Submit</Button>
           </Box>
           <Box p={3}>
             {JSON.stringify(finalData, null, 2) !== '{}' ?
               <>
                 <Heading>Updated package.json</Heading>
-                <textarea style={{ height: '400px', width: '400px', fontSize: '14px' }} value={JSON.stringify(finalData, null, 2)} />
-                <br />
+                <textarea rows={25} style={{ width: '400px', fontSize: '14px' }} value={JSON.stringify(finalData, null, 2)} />
+                <br /><br />
                 <Button default onClick={this.handleCopyClipboard}>Copy to Clipboard</Button>
               </>
               : null}
