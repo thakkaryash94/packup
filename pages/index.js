@@ -120,7 +120,7 @@ class App extends Component {
             <Row>
               <Col xl={6} xl={6} >
                 <h2>
-                  Your Package JSON
+                  Existing package.json
                 </h2>
                 <Textarea resizable={false} style={{ height: '400px', width: '400px', fontSize: '14px' }} value={this.state.value} onChange={this.handleChange} />
                 <br />
