@@ -6,6 +6,7 @@ import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Textarea } from '@zendeskgarden/react-textfields'
 import { XXL, XL } from '@zendeskgarden/react-typography'
+import { Modal, Header, Body, Footer, Close, FooterItem } from '@zendeskgarden/react-modals'
 import copy from 'copy-to-clipboard'
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isModalVisible: true,
       value:
         `{
   "name": "package-updater",
@@ -105,11 +107,15 @@ class App extends Component {
     copy(JSON.stringify(this.state.finalData, null, 2))
   }
 
+  handleChange = (event) => {
+    this.setState({ value: event.target.value })
+  }
+
   render() {
     const { finalData } = this.state
     return (
       <Layout>
-        <>
+        <div>
           <Grid>
             <Row>
               <Col xl={6} xl={6} >
@@ -133,7 +139,13 @@ class App extends Component {
               </Col>
             </Row>
           </Grid>
-        </>
+          {/* {this.state.isModalVisible && (
+            <Modal onClose={this.onModalClose}>
+              <Header>Example Header</Header>
+
+            </Modal>
+          )} */}
+        </div>
       </Layout>
     )
   }
