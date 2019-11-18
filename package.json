@@ -14,18 +14,13 @@
   },
   "homepage": "https://github.com/thakkaryash94/packup#README",
   "scripts": {
-    "dev": "next dev",
+    "dev": "now dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@primer/components": "^15.1.1",
     "@zeit/next-css": "^1.0.1",
-    "@zendeskgarden/react-buttons": "^7.1.0",
-    "@zendeskgarden/react-grid": "^7.0.2",
-    "@zendeskgarden/react-modals": "^7.0.2",
-    "@zendeskgarden/react-textfields": "^6.7.1",
-    "@zendeskgarden/react-theming": "^7.0.0",
-    "@zendeskgarden/react-typography": "^7.0.0",
     "axios": "^0.19.0",
     "babel-plugin-styled-components": "^1.10.6",
     "copy-to-clipboard": "^3.2.0",

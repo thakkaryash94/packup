@@ -1,13 +1,17 @@
 import Head from 'next/head'
-import '@zendeskgarden/react-grid/dist/styles.css'
-import '@zendeskgarden/react-textfields/dist/styles.css'
-import '@zendeskgarden/react-buttons/dist/styles.css'
-import '@zendeskgarden/react-modals/dist/styles.css'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
-import { ServerStyleSheet } from 'styled-components'
+import { theme as primer } from '@primer/components'
+import { ThemeProvider } from 'styled-components'
+
+const theme = {
+  ...primer,
+  space: [0, 8, 16, 32, 64],
+  fontSizes: [10, 12, 16, 24, 48]
+}
+// override
+theme.colors.bodytext = '#111'
 
 export default ({ children, title = 'Package Updater' }) => (
-  <ThemeProvider>
+  <ThemeProvider theme={theme}>
     <>
       <Head>
         <title>{title}</title>

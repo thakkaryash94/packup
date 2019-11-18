@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import copy from 'copy-to-clipboard'
 import semver from 'semver'
 import Layout from '../components/layout'
-import { Grid, Row, Col } from '@zendeskgarden/react-grid'
-import { Button } from '@zendeskgarden/react-buttons'
-import { Textarea } from '@zendeskgarden/react-textfields'
-import { XXL, XL } from '@zendeskgarden/react-typography'
-import { Modal, Header, Body, Footer, Close, FooterItem } from '@zendeskgarden/react-modals'
-import copy from 'copy-to-clipboard'
+import { Text, Heading, Button, Box, Grid } from '@primer/components'
 
 class App extends Component {
 
@@ -115,37 +111,24 @@ class App extends Component {
     const { finalData } = this.state
     return (
       <Layout>
-        <div>
-          <Grid>
-            <Row>
-              <Col xl={6} xl={6} >
-                <h2>
-                  Existing package.json
-                </h2>
-                <Textarea resizable={false} style={{ height: '400px', width: '400px', fontSize: '14px' }} value={this.state.value} onChange={this.handleChange} />
+        <Grid gridTemplateColumns="repeat(2, auto)" gridGap={3}>
+          <Box p={3}>
+            <Heading>Current package.json</Heading>
+            <textarea style={{ height: '400px', width: '400px', fontSize: '14px' }} value={this.state.value} onChange={this.handleChange} />
+            <br />
+            <Button default onClick={this.handleSubmit}>Submit</Button>
+          </Box>
+          <Box p={3}>
+            {JSON.stringify(finalData, null, 2) !== '{}' ?
+              <>
+                <Heading>Updated package.json</Heading>
+                <textarea style={{ height: '400px', width: '400px', fontSize: '14px' }} value={JSON.stringify(finalData, null, 2)} />
                 <br />
-                <Button default onClick={this.handleSubmit}>Submit</Button>
-              </Col>
-              <Col xl={6} xl={6} >
-                {JSON.stringify(finalData, null, 2) !== '{}' ?
-                  <>
-                    <h2>Updated package.json</h2>
-                    <Textarea disabled={true} style={{ height: '400px', width: '400px', fontSize: '14px' }} value={JSON.stringify(finalData, null, 2)} />
-                    <br />
-                    <Button default onClick={this.handleCopyClipboard}>Copy to Clipboard</Button>
-                  </>
-                  : null}
-                <br />
-              </Col>
-            </Row>
-          </Grid>
-          {/* {this.state.isModalVisible && (
-            <Modal onClose={this.onModalClose}>
-              <Header>Example Header</Header>
-
-            </Modal>
-          )} */}
-        </div>
+                <Button default onClick={this.handleCopyClipboard}>Copy to Clipboard</Button>
+              </>
+              : null}
+          </Box>
+        </Grid>
       </Layout>
     )
   }
